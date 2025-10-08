@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f1f4fd;
+  color: #222; /* Darker text */
+}
+
+.dashboard-container {
+  padding: 32px;
+  color: #222; /* Default dark text */
+}
+
+h1, h2, h3, h4 {
+  color: #111; /* Strong header contrast */
+}
+
+.card-title {
+  color: #333;
+}
+
+.fund-name {
+  color: #111;
+}
+
+.fund-value, .fund-change {
+  color: #222;
+}
+
+.logout-btn {
+  background-color: #5b39f5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  background-color: #452bdc;
+}
