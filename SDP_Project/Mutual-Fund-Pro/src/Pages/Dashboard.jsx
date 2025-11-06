@@ -1,20 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../App.css";
+import Navbar from "../components/Navbar"; // ✅ Import Navbar
 
 function Dashboard({ user, onLogout }) {
-  const handlePortfolioOverview = () => {
-    alert("📈 Opening Portfolio Overview...");
-  };
-
-  const handleAddNewFund = () => {
-    alert("💰 Redirecting to Add New Fund page...");
-  };
-
-  const handleReports = () => {
-    alert("📊 Generating Reports...");
-  };
-
-  // Add emoji based on role
+  // Role-based personalized message
   const getRoleEmoji = (role) => {
     switch (role) {
       case "Investor":
@@ -26,25 +16,43 @@ function Dashboard({ user, onLogout }) {
       case "Data Analyst":
         return "Dive into the data and uncover powerful investment insights🧠";
       default:
-        return "👋";
+        return "👋 Welcome back!";
     }
   };
 
   return (
-    <div className="dashboard-container">
-      <h1>
-       Welcome back, {getRoleEmoji(user?.role)}  <span className="username">{user?.name || ""}</span>!
-      </h1>
-      <p>Manage and track your mutual fund investments efficiently 🌟</p>
+    <>
+      {/* ✅ Navbar only for dashboard */}
+      <Navbar user={user} />
 
-      <div className="dashboard-buttons">
-        <button onClick={handlePortfolioOverview}>📈 Portfolio Overview</button>
-        <button onClick={handleAddNewFund}>💰 Add New Fund</button>
-        <button onClick={handleReports}>📊 Reports</button>
+      {/* ✅ Dashboard main content */}
+      <div className="dashboard-container" style={{ marginTop: "100px" }}>
+        <h1>
+          Welcome back,{" "}
+          <span className="username">{user?.username || "User"}</span> —{" "}
+          {getRoleEmoji(user?.role)}
+        </h1>
+        <p>Manage and track your mutual fund investments efficiently </p>
+
+        {/* ✅ Dashboard Buttons */}
+        <div className="dashboard-buttons">
+          <Link to="/portfolio">
+            <button>📈 Portfolio Overview</button>
+          </Link>
+          <Link to="/add-fund">
+            <button>💰 Add New Fund</button>
+          </Link>
+          <Link to="/reports">
+            <button>📊 Reports</button>
+          </Link>
+        </div>
+
+        {/* ✅ Logout */}
+        <button className="logout-btn" onClick={onLogout}>
+          🚪 Logout
+        </button>
       </div>
-
-      <button className="logout-btn" onClick={onLogout}>🚪 Logout</button>
-    </div>
+    </>
   );
 }
 

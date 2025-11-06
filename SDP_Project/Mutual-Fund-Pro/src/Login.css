@@ -1,32 +1,53 @@
 body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f1f4fd;
-  color: #222; /* Darker default text color */
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0 !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+
+  /* ✅ Background image (from public folder) */
+  background-image: url('/image2.jpg') !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+
+  color: #222 !important;
+  height: 100vh !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: relative !important;
 }
 
-/* Centers the login container perfectly */
+/* ✅ Dim overlay (optional — doesn’t block form) */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+/* Centers the login form */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  z-index: 1;
 }
 
 /* The form box */
 .login-form {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
   padding: 40px 30px;
   border-radius: 10px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
   text-align: center;
-  color: #222; /* Darker text */
+  color: #222;
 }
 
 .login-form h1 {
@@ -69,6 +90,7 @@ body {
   cursor: pointer;
   margin-top: 10px;
   font-weight: 500;
+  transition: background 0.3s ease;
 }
 
 .login-form button:hover {
