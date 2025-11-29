@@ -1,7 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function AddFund() {
+function AddFund({ user }) {
+  // Function to get dashboard route based on user role
+  const getDashboardRoute = (role) => {
+    switch (role) {
+      case "Investor":
+        return "/investor-dashboard";
+      case "Admin":
+        return "/admin-dashboard";
+      case "Financial Advisor":
+        return "/advisor-dashboard";
+      case "Data Analyst":
+        return "/analyst-dashboard";
+      default:
+        return "/dashboard";
+    }
+  };
+
   const [fundName, setFundName] = useState("");
   const [investment, setInvestment] = useState("");
   const [category, setCategory] = useState("");
@@ -92,7 +108,7 @@ function AddFund() {
 
       {message && <p style={{ color: "green", fontWeight: "bold" }}>{message}</p>}
 
-      <Link to="/dashboard">
+      <Link to={getDashboardRoute(user?.role)}>
         <button className="logout-btn" style={{ marginTop: "20px" }}>
           ⬅️ Back to Dashboard
         </button>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar({ user }) {
@@ -6,6 +7,54 @@ function Navbar({ user }) {
 
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
+
+  // Function to get dashboard route based on user role
+  const getDashboardRoute = (role) => {
+    switch (role) {
+      case "Investor":
+        return "/investor-dashboard";
+      case "Admin":
+        return "/admin-dashboard";
+      case "Financial Advisor":
+        return "/advisor-dashboard";
+      case "Data Analyst":
+        return "/analyst-dashboard";
+      default:
+        return "/dashboard";
+    }
+  };
+
+  // Function to get role-specific navigation items
+  const getNavItems = (role) => {
+    switch (role) {
+      case "Investor":
+        return [
+          { path: "/portfolio", label: "Portfolio" },
+          { path: "/add-fund", label: "Add Fund" },
+          { path: "/reports", label: "Reports" }
+        ];
+      case "Admin":
+        return [
+          { path: "/user-management", label: "Users" },
+          { path: "/system-reports", label: "Reports" },
+          { path: "/platform-settings", label: "Settings" }
+        ];
+      case "Financial Advisor":
+        return [
+          { path: "/client-portfolio", label: "Clients" },
+          { path: "/market-analysis", label: "Analysis" },
+          { path: "/recommendations", label: "Recommendations" }
+        ];
+      case "Data Analyst":
+        return [
+          { path: "/performance-analytics", label: "Analytics" },
+          { path: "/trend-analysis", label: "Trends" },
+          { path: "/data-visualization", label: "Visualization" }
+        ];
+      default:
+        return [];
+    }
+  };
 
   return (
     <>
@@ -15,8 +64,17 @@ function Navbar({ user }) {
         </div>
 
         <div className="navbar-right">
-          {/* ✅ Dashboard is plain text */}
-          <span className="nav-text">Dashboard</span>
+          {/* ✅ Dashboard link */}
+          <Link to={getDashboardRoute(user?.role)} className="nav-link">
+            Dashboard
+          </Link>
+
+          {/* Role-specific navigation items */}
+          {getNavItems(user?.role).map((item, index) => (
+            <Link key={index} to={item.path} className="nav-link">
+              {item.label}
+            </Link>
+          ))}
 
           {/* ✅ Terms & Conditions popup trigger */}
           <button className="nav-link terms-btn" onClick={handleOpen}>

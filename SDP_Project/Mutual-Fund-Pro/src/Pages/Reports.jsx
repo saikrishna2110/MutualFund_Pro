@@ -1,7 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Reports() {
+function Reports({ user }) {
+  // Function to get dashboard route based on user role
+  const getDashboardRoute = (role) => {
+    switch (role) {
+      case "Investor":
+        return "/investor-dashboard";
+      case "Admin":
+        return "/admin-dashboard";
+      case "Financial Advisor":
+        return "/advisor-dashboard";
+      case "Data Analyst":
+        return "/analyst-dashboard";
+      default:
+        return "/dashboard";
+    }
+  };
+
   const reports = [
     { title: "Monthly Performance", date: "Oct 2025", status: "Completed" },
     { title: "Quarterly Summary", date: "Q3 2025", status: "Generated" },
@@ -65,7 +81,7 @@ function Reports() {
       </div>
 
       {/* ✅ Reports Table */}
-      <h2 style={{ marginTop: "50px", color: "#fff" }}>Detailed Reports</h2>
+      <h2 className="reports-table-title">Detailed Reports</h2>
       <table
         style={{
           width: "85%",
@@ -78,7 +94,7 @@ function Reports() {
         }}
       >
         <thead>
-          <tr style={{ background: "#5b39f5", color: "white", textAlign: "left" }}>
+          <tr className="table-header">
             <th style={{ padding: "14px" }}>Report Name</th>
             <th style={{ padding: "14px" }}>Period</th>
             <th style={{ padding: "14px" }}>Status</th>
@@ -146,7 +162,7 @@ function Reports() {
       </button>
 
       <div style={{ marginTop: "40px" }}>
-        <Link to="/dashboard">
+        <Link to={getDashboardRoute(user?.role)}>
           <button className="logout-btn">⬅️ Back to Dashboard</button>
         </Link>
       </div>

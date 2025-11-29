@@ -1,7 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Portfolio() {
+function Portfolio({ user }) {
+  // Function to get dashboard route based on user role
+  const getDashboardRoute = (role) => {
+    switch (role) {
+      case "Investor":
+        return "/investor-dashboard";
+      case "Admin":
+        return "/admin-dashboard";
+      case "Financial Advisor":
+        return "/advisor-dashboard";
+      case "Data Analyst":
+        return "/analyst-dashboard";
+      default:
+        return "/dashboard";
+    }
+  };
+
   const funds = [
     { name: "Axis Bluechip Fund", value: "₹1,25,000", growth: "+8.2%" },
     { name: "HDFC Midcap Opportunities", value: "₹87,500", growth: "+6.4%" },
@@ -18,12 +34,10 @@ function Portfolio() {
   ];
 
   return (
-    <div className="dashboard-container" style={{ color: "#fff", textAlign: "center" }}>
+    <div className="dashboard-container">
       {/* ===== HEADER ===== */}
-      <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📊 Portfolio Overview</h1>
-      <p style={{ fontSize: "1rem", color: "#ccc", marginBottom: "40px" }}>
-        Get a quick insight into your investment distribution and performance metrics.
-      </p>
+      <h1>📊 Portfolio Overview</h1>
+      <p>Get a quick insight into your investment distribution and performance metrics.</p>
 
       {/* ===== SUMMARY CARDS ===== */}
       <div
@@ -68,7 +82,7 @@ function Portfolio() {
       </div>
 
       {/* ===== FUND CARDS ===== */}
-      <h2 style={{ color: "#fff", fontSize: "1.6rem", marginBottom: "20px" }}>
+      <h2 className="section-title">
         💼 Your Mutual Funds
       </h2>
 
@@ -134,7 +148,7 @@ function Portfolio() {
           lineHeight: "1.6",
         }}
       >
-        <h2 style={{ color: "#fff", marginBottom: "15px" }}>💡 Investment Insights</h2>
+        <h2 className="section-title">💡 Investment Insights</h2>
         <ul style={{ paddingLeft: "20px" }}>
           <li>Small Cap funds are outperforming others with 10%+ growth.</li>
           <li>Consider increasing exposure to Flexi Cap funds for diversity.</li>
@@ -165,9 +179,10 @@ function Portfolio() {
           ⬇️ Download Report
         </button>
 
-        <Link to="/dashboard">
+        <Link to={getDashboardRoute(user?.role)}>
           <button
             className="logout-btn"
+
             style={{
               background: "rgba(255,255,255,0.15)",
               border: "1px solid rgba(255,255,255,0.3)",

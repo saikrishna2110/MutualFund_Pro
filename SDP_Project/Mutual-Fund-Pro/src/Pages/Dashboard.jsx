@@ -1,56 +1,80 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../App.css";
-import Navbar from "../components/Navbar"; // ✅ Import Navbar
+import "../Dashboard.css";
+import Navbar from "../components/Navbar";
 
 function Dashboard({ user, onLogout }) {
-  // Role-based personalized message
-  const getRoleEmoji = (role) => {
+  const getRoleMessage = (role) => {
     switch (role) {
       case "Investor":
-        return "Ready to explore your investments and grow your portfolio💼";
+        return "Explore insights and manage your investment portfolio.";
       case "Financial Advisor":
-        return "Guide your clients toward smarter, more profitable investment choices📊";
+        return "Guide your clients with data-backed financial decisions.";
       case "Admin":
-        return "Manage users, monitor activity, and keep everything running smoothly🛠️";
+        return "Manage users, roles, and platform operations.";
       case "Data Analyst":
-        return "Dive into the data and uncover powerful investment insights🧠";
+        return "Analyze performance trends and insights.";
       default:
-        return "👋 Welcome back!";
+        return "Your personalized investment dashboard.";
     }
   };
 
   return (
     <>
-      {/* ✅ Navbar only for dashboard */}
       <Navbar user={user} />
 
-      {/* ✅ Dashboard main content */}
-      <div className="dashboard-container" style={{ marginTop: "100px" }}>
-        <h1>
-          Welcome back,{" "}
-          <span className="username">{user?.username || "User"}</span> —{" "}
-          {getRoleEmoji(user?.role)}
-        </h1>
-        <p>Manage and track your mutual fund investments efficiently </p>
+      {/* HERO SECTION WITH OVERLAY */}
+      <div className="hero-section">
 
-        {/* ✅ Dashboard Buttons */}
+        <h1 className="hero-title">
+          Welcome back, <span>{user?.username || "User"}</span> 
+        </h1>
+
+        <p className="hero-subtext">{getRoleMessage(user?.role)}</p>
+
+        {/* Buttons */}
         <div className="dashboard-buttons">
           <Link to="/portfolio">
-            <button>📈 Portfolio Overview</button>
+            <button className="btn-primary">📈 Portfolio Overview</button>
           </Link>
+
           <Link to="/add-fund">
-            <button>💰 Add New Fund</button>
+            <button className="btn-primary">💰 Add New Fund</button>
           </Link>
+
           <Link to="/reports">
-            <button>📊 Reports</button>
+            <button className="btn-primary">📊 Reports</button>
           </Link>
         </div>
+      </div>
 
-        {/* ✅ Logout */}
-        <button className="logout-btn" onClick={onLogout}>
-          🚪 Logout
-        </button>
+      {/* CARDS SECTION */}
+      <div className="cards-section">
+        <div className="card-grid">
+
+          <div className="card">
+            <h3 className="card-title">Total AUM</h3>
+            <p className="value">₹ 12,34,567</p>
+            <p className="desc">Across all your investments</p>
+          </div>
+
+          <div className="card">
+            <h3 className="card-title">Top Performing Fund</h3>
+            <p className="value">Alpha Growth Fund</p>
+            <p className="positive">+18.2% YTD</p>
+          </div>
+
+          <div className="card">
+            <h3 className="card-title">Portfolio Alerts</h3>
+            <p className="warning">3 portfolios need rebalancing</p>
+          </div>
+
+        </div>
+      </div>
+
+      {/* LOGOUT BUTTON AT BOTTOM */}
+      <div className="logout-container">
+        <button className="logout-btn" onClick={onLogout}>🚪 Logout</button>
       </div>
     </>
   );
