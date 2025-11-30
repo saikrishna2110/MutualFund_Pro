@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "SDP_Project/SDP_Project/Mutual-Fund-Pro/dist",
+  "framework": "vite"
+}
