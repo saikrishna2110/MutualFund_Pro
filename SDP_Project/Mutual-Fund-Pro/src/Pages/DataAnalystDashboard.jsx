@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Dashboard.css";
-import Navbar from "../components/Navbar";
 
 function DataAnalystDashboard({ user, onLogout }) {
   return (
     <>
-      <Navbar user={user} />
 
       {/* HERO SECTION WITH OVERLAY */}
       <div className="hero-section">

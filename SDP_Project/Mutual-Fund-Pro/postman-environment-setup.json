@@ -1,0 +1,43 @@
+{
+  "id": "mutual-fund-pro-env",
+  "name": "Mutual Fund Pro API",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api",
+      "description": "Base URL for the Mutual Fund Pro API",
+      "enabled": true
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "description": "JWT authentication token (auto-set after login)",
+      "enabled": true
+    },
+    {
+      "key": "test_user_id",
+      "value": "",
+      "description": "Test user ID (auto-set after registration/login)",
+      "enabled": true
+    },
+    {
+      "key": "test_recommendation_id",
+      "value": "",
+      "description": "Test recommendation ID (auto-set after creation)",
+      "enabled": true
+    },
+    {
+      "key": "test_scheme_code",
+      "value": "100122",
+      "description": "Default mutual fund scheme code for testing (HDFC Top 100)",
+      "enabled": true
+    },
+    {
+      "key": "timestamp",
+      "value": "",
+      "description": "Auto-generated timestamp for unique test data",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

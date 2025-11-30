@@ -30,7 +30,7 @@ function Portfolio({ user }) {
     { label: "💰 Total Investment", value: "₹4,24,100" },
     { label: "📈 Average Growth", value: "+8.3%" },
     { label: "🏆 Top Performer", value: "SBI Small Cap Fund" },
-    { label: "📅 Last Updated", value: "04 Nov 2025" },
+    { label: "📅 Last Updated", value: "04 Oct 2024" },
   ];
 
   return (
@@ -47,7 +47,7 @@ function Portfolio({ user }) {
           gap: "20px",
           justifyContent: "center",
           padding: "0 30px",
-          marginBottom: "50px",
+          marginBottom: "120px",
         }}
       >
         {summary.map((item, index) => (
@@ -144,7 +144,7 @@ function Portfolio({ user }) {
           width: "85%",
           margin: "60px auto 30px",
           textAlign: "left",
-          color: "#e2e8f0",
+          color: "#000000",
           lineHeight: "1.6",
         }}
       >
@@ -186,7 +186,7 @@ function Portfolio({ user }) {
             style={{
               background: "rgba(255,255,255,0.15)",
               border: "1px solid rgba(255,255,255,0.3)",
-              color: "#fff",
+              color: "#000000",
               padding: "12px 20px",
               borderRadius: "8px",
               cursor: "pointer",

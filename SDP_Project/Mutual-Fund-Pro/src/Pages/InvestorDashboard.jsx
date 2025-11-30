@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Dashboard.css";
-import Navbar from "../components/Navbar";
 
 function InvestorDashboard({ user, onLogout }) {
   return (
     <>
-      <Navbar user={user} />
 
       {/* HERO SECTION WITH OVERLAY */}
       <div className="hero-section investor-hero">
@@ -26,6 +24,10 @@ function InvestorDashboard({ user, onLogout }) {
 
           <Link to="/add-fund">
             <button className="btn-investor">💰 Invest More</button>
+          </Link>
+
+          <Link to="/advisor-recommendations">
+            <button className="btn-investor">💡 Advisor Recommendations</button>
           </Link>
 
           <Link to="/reports">

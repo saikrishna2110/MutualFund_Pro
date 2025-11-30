@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../Login.css';
 
 function Login({ onLogin }) {
+  console.log('🔐 Login component is rendering...');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

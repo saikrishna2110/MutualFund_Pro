@@ -45,7 +45,7 @@ function SystemReports({ user }) {
     {
       id: 1,
       title: "Monthly System Performance Report",
-      period: "November 2025",
+      period: "October 2024",
       status: "Generated",
       downloads: 45,
       size: "2.4 MB"
@@ -53,7 +53,7 @@ function SystemReports({ user }) {
     {
       id: 2,
       title: "User Activity Analysis",
-      period: "Q4 2025",
+      period: "Q3 2024",
       status: "Generated",
       downloads: 23,
       size: "1.8 MB"
@@ -61,7 +61,7 @@ function SystemReports({ user }) {
     {
       id: 3,
       title: "Security Audit Report",
-      period: "October 2025",
+      period: "September 2024",
       status: "Pending",
       downloads: 0,
       size: "N/A"
@@ -69,7 +69,7 @@ function SystemReports({ user }) {
     {
       id: 4,
       title: "Financial Compliance Report",
-      period: "Q3 2025",
+      period: "Q2 2024",
       status: "Generated",
       downloads: 67,
       size: "3.2 MB"

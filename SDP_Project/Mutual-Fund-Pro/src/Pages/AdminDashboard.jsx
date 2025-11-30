@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Dashboard.css";
-import Navbar from "../components/Navbar";
 
 function AdminDashboard({ user, onLogout }) {
   return (
     <>
-      <Navbar user={user} />
 
       {/* ADMIN PANEL CONTENT STARTING FROM BELOW NAVBAR */}
       <div style={{

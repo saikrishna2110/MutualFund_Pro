@@ -19,11 +19,11 @@ function Reports({ user }) {
   };
 
   const reports = [
-    { title: "Monthly Performance", date: "Oct 2025", status: "Completed" },
-    { title: "Quarterly Summary", date: "Q3 2025", status: "Generated" },
-    { title: "Year-to-Date Growth", date: "2025", status: "Pending" },
-    { title: "Risk Analysis Report", date: "Sep 2025", status: "Completed" },
-    { title: "Fund Allocation Insights", date: "Aug 2025", status: "Generated" },
+    { title: "Monthly Performance", date: "Oct 2024", status: "Completed" },
+    { title: "Quarterly Summary", date: "Q3 2024", status: "Generated" },
+    { title: "Year-to-Date Growth", date: "2024", status: "Pending" },
+    { title: "Risk Analysis Report", date: "Sep 2024", status: "Completed" },
+    { title: "Fund Allocation Insights", date: "Aug 2024", status: "Generated" },
   ];
 
   const summary = [

@@ -46,9 +46,9 @@ function MarketAnalysis({ user }) {
   ];
 
   const economicIndicators = [
-    { indicator: "GDP Growth", value: "6.8%", trend: "up", lastUpdated: "Q2 2025" },
-    { indicator: "Inflation Rate", value: "4.2%", trend: "stable", lastUpdated: "Oct 2025" },
-    { indicator: "Interest Rate", value: "6.5%", trend: "down", lastUpdated: "Nov 2025" },
+    { indicator: "GDP Growth", value: "6.8%", trend: "up", lastUpdated: "Q2 2024" },
+    { indicator: "Inflation Rate", value: "4.2%", trend: "stable", lastUpdated: "Oct 2024" },
+    { indicator: "Interest Rate", value: "6.5%", trend: "down", lastUpdated: "Sep 2024" },
     { indicator: "USD/INR", value: "83.45", trend: "up", lastUpdated: "Today" },
     { indicator: "Crude Oil", value: "$68.50", trend: "stable", lastUpdated: "Today" }
   ];

@@ -29,24 +29,27 @@ function Navbar({ user }) {
     switch (role) {
       case "Investor":
         return [
-          { path: "/portfolio", label: "Portfolio" },
+          // { path: "/fund-lookup", label: "Fund Lookup" }, // Temporarily commented out
           { path: "/add-fund", label: "Add Fund" },
           { path: "/reports", label: "Reports" }
         ];
       case "Admin":
         return [
+          // { path: "/fund-lookup", label: "Fund Lookup" }, // Temporarily commented out
           { path: "/user-management", label: "Users" },
           { path: "/system-reports", label: "Reports" },
           { path: "/platform-settings", label: "Settings" }
         ];
       case "Financial Advisor":
         return [
+          // { path: "/fund-lookup", label: "Fund Lookup" }, // Temporarily commented out
           { path: "/client-portfolio", label: "Clients" },
           { path: "/market-analysis", label: "Analysis" },
           { path: "/recommendations", label: "Recommendations" }
         ];
       case "Data Analyst":
         return [
+          // { path: "/fund-lookup", label: "Fund Lookup" }, // Temporarily commented out
           { path: "/performance-analytics", label: "Analytics" },
           { path: "/trend-analysis", label: "Trends" },
           { path: "/data-visualization", label: "Visualization" }
@@ -55,6 +58,7 @@ function Navbar({ user }) {
         return [];
     }
   };
+
 
   return (
     <>

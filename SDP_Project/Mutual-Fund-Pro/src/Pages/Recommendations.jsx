@@ -1,5 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  getAllRecommendations,
+  getInvestors,
+  createRecommendation,
+  updateRecommendationStatus,
+  getRecommendationStats,
+  initializeSampleData
+} from "../services/recommendationService";
 
 function Recommendations({ user }) {
   // Function to get dashboard route based on user role
@@ -19,8 +27,105 @@ function Recommendations({ user }) {
   };
 
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [recommendations, setRecommendations] = useState([]);
+  const [investors, setInvestors] = useState([]);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [stats, setStats] = useState({ total: 0, pending: 0, implemented: 0, highPriority: 0 });
 
-  const recommendations = [
+  // New recommendation form state
+  const [newRecommendation, setNewRecommendation] = useState({
+    investorId: "",
+    investorUsername: "",
+    investorName: "",
+    category: "",
+    recommendation: "",
+    expectedReturn: "",
+    riskLevel: "",
+    timeframe: "",
+    priority: "Medium",
+    reasoning: ""
+  });
+
+  // Load data on component mount
+  useEffect(() => {
+    initializeSampleData(); // Initialize with sample data if empty
+    loadRecommendations();
+    loadInvestors();
+  }, []);
+
+  const loadRecommendations = () => {
+    const allRecommendations = getAllRecommendations();
+    setRecommendations(allRecommendations);
+    const recommendationStats = getRecommendationStats(user?.username);
+    setStats(recommendationStats);
+  };
+
+  const loadInvestors = () => {
+    const investorsList = getInvestors();
+    setInvestors(investorsList);
+  };
+
+  const handleCreateRecommendation = async (e) => {
+    e.preventDefault();
+
+    if (!newRecommendation.investorId || !newRecommendation.category || !newRecommendation.recommendation) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    const recommendationData = {
+      ...newRecommendation,
+      advisorUsername: user?.username,
+      advisorName: user?.username // In real app, this would be the advisor's display name
+    };
+
+    console.log('Creating recommendation for:', newRecommendation.investorUsername);
+    console.log('Full recommendation data:', recommendationData);
+
+    const result = createRecommendation(recommendationData);
+
+    if (result.success) {
+      alert("Recommendation created successfully!");
+      setNewRecommendation({
+        investorId: "",
+        investorUsername: "",
+        investorName: "",
+        category: "",
+        recommendation: "",
+        expectedReturn: "",
+        riskLevel: "",
+        timeframe: "",
+        priority: "Medium",
+        reasoning: ""
+      });
+      setShowCreateForm(false);
+      loadRecommendations(); // Reload the list
+    } else {
+      alert("Error creating recommendation: " + result.error);
+    }
+  };
+
+  const handleInvestorSelect = (investorId) => {
+    const selectedInvestor = investors.find(inv => inv.id === parseInt(investorId));
+    if (selectedInvestor) {
+      setNewRecommendation({
+        ...newRecommendation,
+        investorId: investorId,
+        investorUsername: selectedInvestor.username,
+        investorName: selectedInvestor.name,
+        riskLevel: selectedInvestor.riskProfile === "Aggressive" ? "High" :
+                  selectedInvestor.riskProfile === "Conservative" ? "Low" : "Medium"
+      });
+    }
+  };
+
+  const handleStatusUpdate = (recommendationId, newStatus) => {
+    updateRecommendationStatus(recommendationId, newStatus);
+    loadRecommendations(); // Reload to reflect changes
+  };
+
+  // Mock recommendations data - in real app, this would come from API
+  const mockRecommendations = [
     {
       id: 1,
       clientName: "Sai ",
@@ -84,8 +189,8 @@ function Recommendations({ user }) {
   ];
 
   const filteredRecommendations = selectedCategory === "all"
-    ? recommendations
-    : recommendations.filter(rec => rec.category.toLowerCase().includes(selectedCategory.toLowerCase()));
+    ? mockRecommendations
+    : mockRecommendations.filter(rec => rec.category.toLowerCase().includes(selectedCategory.toLowerCase()));
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -114,14 +219,7 @@ function Recommendations({ user }) {
     }
   };
 
-  const categories = ["all", ...new Set(recommendations.map(rec => rec.category))];
-
-  const stats = {
-    total: recommendations.length,
-    pending: recommendations.filter(r => r.status === "Pending").length,
-    implemented: recommendations.filter(r => r.status === "Implemented").length,
-    highPriority: recommendations.filter(r => r.priority === "High").length
-  };
+  const categories = ["all", ...new Set(mockRecommendations.map(rec => rec.category))];
 
   return (
     <div className="dashboard-container">
@@ -147,6 +245,213 @@ function Recommendations({ user }) {
           <p className="stat-label">High Priority</p>
         </div>
       </div>
+
+      {/* Create New Recommendation Button */}
+      <div style={{ marginBottom: "20px", textAlign: "right" }}>
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          style={{
+            background: "#2563eb",
+            color: "white",
+            border: "none",
+            padding: "12px 24px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "14px",
+            fontWeight: "600",
+            transition: "background 0.2s"
+          }}
+          onMouseEnter={(e) => e.target.style.background = "#1d4ed8"}
+          onMouseLeave={(e) => e.target.style.background = "#2563eb"}
+        >
+          {showCreateForm ? "Cancel" : "+ Create Recommendation"}
+        </button>
+      </div>
+
+      {/* Create Recommendation Form */}
+      {showCreateForm && (
+        <div style={{
+          background: "rgba(255, 255, 255, 0.95)",
+          borderRadius: "12px",
+          padding: "25px",
+          marginBottom: "30px",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
+        }}>
+          <h3 style={{ marginBottom: "20px", color: "#1e293b" }}>Create New Recommendation</h3>
+          <form onSubmit={handleCreateRecommendation}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "15px", marginBottom: "20px" }}>
+              <div>
+                <label style={{ display: "block", marginBottom: "5px", fontWeight: "500", color: "#374151" }}>
+                  Select Investor *
+                </label>
+                <select
+                  value={newRecommendation.investorId}
+                  onChange={(e) => handleInvestorSelect(e.target.value)}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    background: "white"
+                  }}
+                >
+                  <option value="">Choose an investor...</option>
+                  {investors.map(investor => (
+                    <option key={investor.id} value={investor.id}>
+                      {investor.name} ({investor.username}) - {investor.riskProfile}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: "block", marginBottom: "5px", fontWeight: "500", color: "#374151" }}>
+                  Category *
+                </label>
+                <select
+                  value={newRecommendation.category}
+                  onChange={(e) => setNewRecommendation({...newRecommendation, category: e.target.value})}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    background: "white"
+                  }}
+                >
+                  <option value="">Select category...</option>
+                  <option value="Portfolio Rebalancing">Portfolio Rebalancing</option>
+                  <option value="New Investment">New Investment</option>
+                  <option value="Sector Rotation">Sector Rotation</option>
+                  <option value="Tax Optimization">Tax Optimization</option>
+                  <option value="Risk Reduction">Risk Reduction</option>
+                  <option value="Dividend Strategy">Dividend Strategy</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: "block", marginBottom: "5px", fontWeight: "500", color: "#374151" }}>
+                  Expected Return
+                </label>
+                <input
+                  type="text"
+                  value={newRecommendation.expectedReturn}
+                  onChange={(e) => setNewRecommendation({...newRecommendation, expectedReturn: e.target.value})}
+                  placeholder="e.g., 8.5-9.5%"
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    background: "white"
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: "block", marginBottom: "5px", fontWeight: "500", color: "#374151" }}>
+                  Timeframe
+                </label>
+                <input
+                  type="text"
+                  value={newRecommendation.timeframe}
+                  onChange={(e) => setNewRecommendation({...newRecommendation, timeframe: e.target.value})}
+                  placeholder="e.g., 3-6 months"
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    background: "white"
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "5px", fontWeight: "500", color: "#374151" }}>
+                Recommendation Details *
+              </label>
+              <textarea
+                value={newRecommendation.recommendation}
+                onChange={(e) => setNewRecommendation({...newRecommendation, recommendation: e.target.value})}
+                required
+                rows="4"
+                placeholder="Describe the recommendation in detail..."
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  background: "white",
+                  resize: "vertical"
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "5px", fontWeight: "500", color: "#374151" }}>
+                Advisor's Reasoning
+              </label>
+              <textarea
+                value={newRecommendation.reasoning}
+                onChange={(e) => setNewRecommendation({...newRecommendation, reasoning: e.target.value})}
+                rows="3"
+                placeholder="Explain the reasoning behind this recommendation..."
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  background: "white",
+                  resize: "vertical"
+                }}
+              />
+            </div>
+
+            <div style={{ display: "flex", gap: "15px", justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                onClick={() => setShowCreateForm(false)}
+                style={{
+                  padding: "10px 20px",
+                  background: "#f3f4f6",
+                  color: "#374151",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "14px"
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                style={{
+                  padding: "10px 20px",
+                  background: "#10b981",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontWeight: "600"
+                }}
+              >
+                Create Recommendation
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Filter Controls */}
       <div className="filter-controls">
@@ -175,7 +480,7 @@ function Recommendations({ user }) {
           <div key={rec.id} className="recommendation-card">
             <div className="recommendation-header">
               <div className="client-info">
-                <h3 className="client-name">{rec.clientName}</h3>
+                <h3 className="client-name">{rec.investorName || rec.clientName}</h3>
                 <span className="risk-profile">{rec.riskProfile} Risk</span>
               </div>
               <div className="recommendation-meta">
@@ -208,12 +513,33 @@ function Recommendations({ user }) {
                   <span className="detail-value">{rec.timeframe}</span>
                 </div>
               </div>
+
+              {rec.reasoning && (
+                <div style={{ marginTop: "15px", padding: "10px", backgroundColor: "#f8fafc", borderRadius: "6px" }}>
+                  <strong>Reasoning:</strong>
+                  <p style={{ marginTop: "5px", color: "#64748b", fontSize: "14px" }}>{rec.reasoning}</p>
+                </div>
+              )}
             </div>
 
             <div className="recommendation-actions">
-              <button className="action-btn primary">📧 Send to Client</button>
-              <button className="action-btn secondary">📝 Edit</button>
-              <button className="action-btn secondary">✅ Mark Complete</button>
+              <button
+                className="action-btn primary"
+                onClick={() => handleStatusUpdate(rec.id, "In Progress")}
+                disabled={rec.status === "Implemented"}
+              >
+                📧 Send to Client
+              </button>
+              <button
+                className="action-btn secondary"
+                onClick={() => handleStatusUpdate(rec.id, "Implemented")}
+                disabled={rec.status === "Implemented"}
+              >
+                ✅ Mark Complete
+              </button>
+              <button className="action-btn secondary">
+                📝 Edit
+              </button>
             </div>
           </div>
         ))}

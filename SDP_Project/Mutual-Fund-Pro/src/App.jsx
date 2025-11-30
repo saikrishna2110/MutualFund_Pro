@@ -23,8 +23,13 @@ import Recommendations from "./Pages/Recommendations";
 import PerformanceAnalytics from "./Pages/PerformanceAnalytics";
 import TrendAnalysis from "./Pages/TrendAnalysis";
 import DataVisualization from "./Pages/DataVisualization";
+import InvestorRecommendations from "./Pages/InvestorRecommendations";
+import TestPage from "./Pages/TestPage";
+// import FundLookup from "./Pages/FundLookup"; // Temporarily commented out
+import Layout from "./components/Layout";
 
 function App() {
+  console.log('🚀 App component is rendering...');
   const [user, setUser] = useState(null);
 
   // ✅ Function to get dashboard route based on user role
@@ -45,9 +50,20 @@ function App() {
 
   // ✅ Load user from localStorage when app starts
   useEffect(() => {
+    console.log('🔄 App useEffect running...');
     const savedUser = localStorage.getItem("user");
+    console.log('💾 Saved user from localStorage:', savedUser);
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        const userData = JSON.parse(savedUser);
+        console.log('👤 Parsed user data:', userData);
+        setUser(userData);
+      } catch (error) {
+        console.error("Error parsing saved user data:", error);
+        localStorage.removeItem("user");
+      }
+    } else {
+      console.log('❌ No saved user found, showing login');
     }
   }, []);
 
@@ -62,6 +78,9 @@ function App() {
     setUser(null);
     localStorage.removeItem("user");
   };
+
+  console.log('🎯 App render - user state:', user);
+  console.log('🛣️ Current route should be determined by user state');
 
   return (
     <Router>
@@ -83,7 +102,9 @@ function App() {
           path="/investor-dashboard"
           element={
             user ? (
-              <InvestorDashboard user={user} onLogout={handleLogout} />
+              <Layout user={user} onLogout={handleLogout}>
+                <InvestorDashboard user={user} onLogout={handleLogout} />
+              </Layout>
             ) : (
               <Navigate to="/" replace />
             )
@@ -94,7 +115,9 @@ function App() {
           path="/admin-dashboard"
           element={
             user ? (
-              <AdminDashboard user={user} onLogout={handleLogout} />
+              <Layout user={user} onLogout={handleLogout}>
+                <AdminDashboard user={user} onLogout={handleLogout} />
+              </Layout>
             ) : (
               <Navigate to="/" replace />
             )
@@ -105,7 +128,9 @@ function App() {
           path="/advisor-dashboard"
           element={
             user ? (
-              <FinancialAdvisorDashboard user={user} onLogout={handleLogout} />
+              <Layout user={user} onLogout={handleLogout}>
+                <FinancialAdvisorDashboard user={user} onLogout={handleLogout} />
+              </Layout>
             ) : (
               <Navigate to="/" replace />
             )
@@ -116,7 +141,9 @@ function App() {
           path="/analyst-dashboard"
           element={
             user ? (
-              <DataAnalystDashboard user={user} onLogout={handleLogout} />
+              <Layout user={user} onLogout={handleLogout}>
+                <DataAnalystDashboard user={user} onLogout={handleLogout} />
+              </Layout>
             ) : (
               <Navigate to="/" replace />
             )
@@ -139,7 +166,11 @@ function App() {
         <Route
           path="/portfolio"
           element={
-            user ? <Portfolio user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <Portfolio user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
 
@@ -147,7 +178,11 @@ function App() {
         <Route
           path="/add-fund"
           element={
-            user ? <AddFund user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <AddFund user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
 
@@ -155,7 +190,23 @@ function App() {
         <Route
           path="/reports"
           element={
-            user ? <Reports user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <Reports user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+
+        {/* Advisor Recommendations for Investors */}
+        <Route
+          path="/advisor-recommendations"
+          element={
+            user ? (
+              <InvestorRecommendations user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
 
@@ -163,19 +214,31 @@ function App() {
         <Route
           path="/user-management"
           element={
-            user ? <UserManagement user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <UserManagement user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route
           path="/system-reports"
           element={
-            user ? <SystemReports user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <SystemReports user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route
           path="/platform-settings"
           element={
-            user ? <PlatformSettings user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <PlatformSettings user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
 
@@ -183,19 +246,31 @@ function App() {
         <Route
           path="/client-portfolio"
           element={
-            user ? <ClientPortfolio user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <ClientPortfolio user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route
           path="/market-analysis"
           element={
-            user ? <MarketAnalysis user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <MarketAnalysis user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route
           path="/recommendations"
           element={
-            user ? <Recommendations user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <Recommendations user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
 
@@ -203,21 +278,51 @@ function App() {
         <Route
           path="/performance-analytics"
           element={
-            user ? <PerformanceAnalytics user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <PerformanceAnalytics user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route
           path="/trend-analysis"
           element={
-            user ? <TrendAnalysis user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <TrendAnalysis user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route
           path="/data-visualization"
           element={
-            user ? <DataVisualization user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <DataVisualization user={user} />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
+
+        {/* Test Page - For debugging blank page issue */}
+        <Route
+          path="/test"
+          element={<TestPage />}
+        />
+
+        {/* Fund Lookup Tool - Temporarily commented out */}
+        {/* <Route
+          path="/fund-lookup"
+          element={
+            user ? (
+              <FundLookup user={user} onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        /> */}
 
         {/* Fallback */}
         <Route

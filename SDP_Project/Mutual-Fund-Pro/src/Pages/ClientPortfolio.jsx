@@ -28,7 +28,7 @@ function ClientPortfolio({ user }) {
       riskProfile: "Moderate",
       totalValue: 2500000,
       monthlyReturn: 2.4,
-      lastContact: "2025-11-15",
+      lastContact: "2024-10-15",
       funds: [
         { name: "Axis Bluechip Fund", amount: 1000000, returns: 12.5 },
         { name: "HDFC Balanced Fund", amount: 800000, returns: 8.3 },
@@ -42,7 +42,7 @@ function ClientPortfolio({ user }) {
       riskProfile: "Conservative",
       totalValue: 1800000,
       monthlyReturn: 1.8,
-      lastContact: "2025-11-12",
+      lastContact: "2024-10-12",
       funds: [
         { name: "SBI Magnum Tax Saver", amount: 800000, returns: 9.1 },
         { name: "Kotak Savings Fund", amount: 1000000, returns: 5.8 }
@@ -55,7 +55,7 @@ function ClientPortfolio({ user }) {
       riskProfile: "Aggressive",
       totalValue: 3200000,
       monthlyReturn: 3.2,
-      lastContact: "2025-11-14",
+      lastContact: "2024-10-14",
       funds: [
         { name: "Mirae Asset Emerging Bluechip", amount: 1500000, returns: 15.7 },
         { name: "Nippon India Small Cap", amount: 1200000, returns: 18.4 },
@@ -69,7 +69,7 @@ function ClientPortfolio({ user }) {
       riskProfile: "Moderate",
       totalValue: 950000,
       monthlyReturn: -0.5,
-      lastContact: "2025-11-10",
+      lastContact: "2024-10-10",
       funds: [
         { name: "UTI Nifty Index Fund", amount: 600000, returns: -2.1 },
         { name: "DSP BlackRock Savings", amount: 350000, returns: 4.8 }
